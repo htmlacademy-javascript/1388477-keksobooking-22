@@ -43,6 +43,12 @@ const AuthorIdRange = {
   MIN: 1,
   MAX: 8,
 }
+export const housingTypeTranslation = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+}
 const SIMILAR_OFFER_COUNT = 10;
 const createOffer = () => {
   const xLocation = getRandomFloat(CoordinateRange.Latitude.FROM, CoordinateRange.Latitude.TO, CoordinateRange.DECIMALS)
@@ -70,6 +76,6 @@ const createOffer = () => {
     },
   }
 }
-const similarOffers = new Array(SIMILAR_OFFER_COUNT).fill(null).map(() => createOffer());
-similarOffers
+export const createOffers = () => new Array(SIMILAR_OFFER_COUNT).fill(null).map(() => createOffer());
+
 
