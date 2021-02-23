@@ -1,16 +1,25 @@
 import {createOffers, housingTypeTranslation} from  './data.js'
-const cardListElement = document.querySelector('#map-canvas')
+
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup')
-const similarOffers = createOffers()
+export const similarOffers = createOffers()
+
 const setFeatures = (element, source) => {
-  !source.length ? element.remove()
-    : element.insertAdjacentHTML('beforeend', source.map((feature) => `<li class="popup__feature popup__feature--${feature}"></li>`).join(''))
+  if(!source.length) {
+    element.remove()
+  }else{
+    element.insertAdjacentHTML('beforeend', source.map((feature) => `<li class="popup__feature popup__feature--${feature}"></li>`).join(''))
+  }
 }
+
 const setPhotos = (element, source) => {
-  !source.length ? element.remove()
-    : element.insertAdjacentHTML('beforeend', source.map((photo) => `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`).join(''))
+  if(!source.length){
+    element.remove()
+  }else{
+    element.insertAdjacentHTML('beforeend', source.map((photo) => `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`).join(''))
+  }
 }
-const cardElements = similarOffers.map(({offer,author}) => {
+
+export const cardElements = similarOffers.map(({offer,author}) => {
   const cardElement = cardTemplate.cloneNode(true)
   cardElement.querySelector('.popup__title').textContent = offer.title
   cardElement.querySelector('.popup__text--address').textContent = offer.address
@@ -26,4 +35,4 @@ const cardElements = similarOffers.map(({offer,author}) => {
   cardElement.querySelector('.popup__avatar').src = author.avatar
   return cardElement
 })
-cardListElement.appendChild(cardElements[5])
+cardElements[5]
