@@ -1,4 +1,8 @@
-const adForm = document.querySelector('.ad-form')
+export const adForm = document.querySelector('.ad-form')
+export const adFormFieldsets = adForm.querySelectorAll('fieldset')
+export const mapFiltersForm = document.querySelector('.map__filters')
+export const mapFiltersFormControls = mapFiltersForm.querySelectorAll(' .map__filters > select, fieldset')
+export const adFormAddressControl = adForm.querySelector('#address')
 const housingType = adForm.querySelector('#type')
 const pricePerNight = adForm.querySelector('#price')
 const typeToMinPriceRange = {
@@ -7,11 +11,20 @@ const typeToMinPriceRange = {
   house: 5000,
   palace: 10000,
 }
-const initPricePerNight = () =>{
+
+const setAdFormDisabled = () => {
+  adForm.classList.add('ad-form--disabled')
+  adFormFieldsets.forEach((fieldset) => fieldset.setAttribute('disabled', ''))
+  mapFiltersForm.classList.add('map__filters--disabled')
+  mapFiltersFormControls.forEach((childElement) => childElement.setAttribute('disabled', ''))
+}
+
+const onHousingTypeSelectChange = () =>{
   pricePerNight.setAttribute('min', typeToMinPriceRange[housingType.value])
   pricePerNight.placeholder = typeToMinPriceRange[housingType.value]
 }
-housingType.addEventListener('change', initPricePerNight)
+
+housingType.addEventListener('change', onHousingTypeSelectChange)
 
 adForm.addEventListener('change', (evt) => {
   if (evt.target.name === 'timein' || evt.target.name === 'timeout') {
@@ -19,4 +32,5 @@ adForm.addEventListener('change', (evt) => {
     adForm.timeout.value = evt.target.value
   }
 })
-initPricePerNight()
+onHousingTypeSelectChange()
+setAdFormDisabled()
