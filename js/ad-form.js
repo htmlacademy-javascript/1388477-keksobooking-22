@@ -3,8 +3,16 @@ export const adFormFieldsets = adForm.querySelectorAll('fieldset')
 export const mapFiltersForm = document.querySelector('.map__filters')
 export const mapFiltersFormControls = mapFiltersForm.querySelectorAll(' .map__filters > select, fieldset')
 export const adFormAddressControl = adForm.querySelector('#address')
+const adFormTitleControl = adForm.querySelector('#title')
+const adFormRoomsControl = adForm.querySelector('#room_number')
+const adFormGuestsControl = adForm.querySelector('#capacity')
 const housingType = adForm.querySelector('#type')
 const pricePerNight = adForm.querySelector('#price')
+
+const TitleValueLength = {
+  MIN: 30,
+  MAX: 100,
+}
 const typeToMinPriceRange = {
   flat: 1000,
   bungalow: 0,
@@ -24,7 +32,44 @@ const onHousingTypeSelectChange = () =>{
   pricePerNight.placeholder = typeToMinPriceRange[housingType.value]
 }
 
+adFormTitleControl.addEventListener('input', () => {
+  const valueLength = adFormTitleControl.value.length
+  if (valueLength < TitleValueLength.MIN) {
+    adFormTitleControl.setCustomValidity('Ещё ' + (TitleValueLength.MIN - valueLength) +' симв.')
+  } else if (valueLength > TitleValueLength.MAX) {
+    adFormTitleControl.setCustomValidity('Удалите лишние ' + (valueLength - TitleValueLength.MAX) +' симв.')
+  } else {
+    adFormTitleControl.setCustomValidity('')
+  }
+
+  adFormTitleControl.reportValidity()
+})
+
+const roomsToGuestsRatio = {
+  '1': '1',
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100':'0',
+}
+
+const validateCapacity = () => {
+  const capacity = adFormGuestsControl.value
+  const rooms = adFormRoomsControl.value
+  const allowed = roomsToGuestsRatio[rooms]
+  const isValid = allowed.includes(capacity)
+  adFormGuestsControl.setCustomValidity(isValid ? '' : 'не подходит')
+  adFormGuestsControl.reportValidity();
+}
+
+const onCapacityChange = (evt) => {
+  if (evt.target === adFormRoomsControl || evt.target === adFormGuestsControl) {
+    validateCapacity()
+  }
+}
+
 housingType.addEventListener('change', onHousingTypeSelectChange)
+
+adForm.addEventListener('change', onCapacityChange)
 
 adForm.addEventListener('change', (evt) => {
   if (evt.target.name === 'timein' || evt.target.name === 'timeout') {
@@ -32,5 +77,6 @@ adForm.addEventListener('change', (evt) => {
     adForm.timeout.value = evt.target.value
   }
 })
+validateCapacity()
 onHousingTypeSelectChange()
 setAdFormDisabled()
