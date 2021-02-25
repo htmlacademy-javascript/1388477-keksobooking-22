@@ -19,7 +19,6 @@ const onMapLoad = () => {
   adFormFieldsets.forEach((fieldset) => fieldset.removeAttribute('disabled'))
   mapFiltersForm.classList.remove('map__filters--disabled')
   mapFiltersFormControls.forEach((childElement) => childElement.removeAttribute('disabled'))
-  adFormAddressControl.setAttribute('disabled','')
 }
 
 const map = L.map('map-canvas')
