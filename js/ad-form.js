@@ -61,7 +61,7 @@ const validateCapacity = () => {
   adFormGuestsControl.reportValidity();
 }
 
-const onCapacityChange = (evt) => {
+const onFormChange = (evt) => {
   if (evt.target === adFormRoomsControl || evt.target === adFormGuestsControl) {
     validateCapacity()
   }
@@ -69,7 +69,7 @@ const onCapacityChange = (evt) => {
 
 housingType.addEventListener('change', onHousingTypeSelectChange)
 
-adForm.addEventListener('change', onCapacityChange)
+adForm.addEventListener('change', onFormChange)
 
 adForm.addEventListener('change', (evt) => {
   if (evt.target.name === 'timein' || evt.target.name === 'timeout') {
