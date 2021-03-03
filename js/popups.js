@@ -1,3 +1,4 @@
+import { adFormSubmitBtn } from './ad-form.js';
 import {isEscEvent} from './utils.js';
 
 const ALERT_SHOW_TIME = 4000;
@@ -16,18 +17,20 @@ export const showNotificationPopup = (popupTemplate) => {
   documentMainElement.appendChild(popupElement);
   document.addEventListener('keydown', onPopupEscKeydown);
   popupElement.addEventListener('click', onPopupClick)
+  adFormSubmitBtn.disabled = true
 }
 
 
-const closeNotificationPopup = () => {
+export const closeNotificationPopup = () => {
   if (popupElement) {
+    adFormSubmitBtn.disabled = false
     popupElement.remove();
     document.removeEventListener('keydown', onPopupEscKeydown);
   }
 }
 
 
-export const showErrAlert = (message) => {
+export const showErrAlert = () => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';
@@ -38,8 +41,7 @@ export const showErrAlert = (message) => {
   alertContainer.style.fontSize = '30px';
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'red';
-
-  alertContainer.textContent = message;
+  alertContainer.textContent = 'Не удалось получить данные с сервера';
 
   document.body.append(alertContainer);
 

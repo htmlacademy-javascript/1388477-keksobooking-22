@@ -1,4 +1,6 @@
-import {adForm, adFormFieldsets, mapFiltersForm, mapFiltersFormControls, adFormAddressControl} from './ad-form.js'
+import {adFormAddressControl, setPageActive} from './ad-form.js'
+import {getData} from './api.js'
+import {createCardElements} from './cards.js'
 
 /* global L:readonly */
 const CenterOfTokyoCoords = {
@@ -6,17 +8,18 @@ const CenterOfTokyoCoords = {
   LONGTITUDE: 139.7528278025191,
 }
 
-const getAddressValue = () => `${(mainPinMarker.getLatLng().lat).toFixed(5)}, ${(mainPinMarker.getLatLng().lng).toFixed(5)}`
+export const getAddressValue = () => `${(mainPinMarker.getLatLng().lat).toFixed(5)}, ${(mainPinMarker.getLatLng().lng).toFixed(5)}`
 
 const onMainPinMarkerMoveend = () => {
   adFormAddressControl.value = getAddressValue()
 }
 
 const onMapLoad = () => {
-  adForm.classList.remove('ad-form--disabled')
-  adFormFieldsets.forEach((fieldset) => fieldset.removeAttribute('disabled'))
-  mapFiltersForm.classList.remove('map__filters--disabled')
-  mapFiltersFormControls.forEach((childElement) => childElement.removeAttribute('disabled'))
+  setPageActive()
+  getData((offers) => {
+    createCardElements(offers);
+    renderMarkers(offers, createCardElements(offers))
+  })
 }
 
 const map = L.map('map-canvas')
@@ -39,7 +42,7 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 })
 
-const mainPinMarker = L.marker(
+export const mainPinMarker = L.marker(
   {
     lat: CenterOfTokyoCoords.LATITUDE,
     lng: CenterOfTokyoCoords.LONGTITUDE,
@@ -81,11 +84,17 @@ export const renderMarkers = (offers, cardElements) => {
   } )
 }
 
+export const setMainPinMarkerDefPos = () => {
+  mainPinMarker.setLatLng(L.latLng(CenterOfTokyoCoords.LATITUDE, CenterOfTokyoCoords.LONGTITUDE))
+}
 
+export const setAddressControlValueDefault = () => {
+  adFormAddressControl.value = getAddressValue();
+}
 
 mainPinMarker.addTo(map);
 
-adFormAddressControl.value = getAddressValue()
+setAddressControlValueDefault()
 
 mainPinMarker.on('moveend', onMainPinMarkerMoveend)
 

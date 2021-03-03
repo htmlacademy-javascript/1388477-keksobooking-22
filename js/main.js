@@ -5,24 +5,15 @@ import './ad-form.js'
 import './map.js'
 import './api.js'
 import './popups.js'
-import {createCardElements} from './cards.js'
-import {renderMarkers} from './map.js'
-import {getData} from './api.js'
-import {showErrAlert} from './popups.js'
+import {setMainPinMarkerDefPos, setAddressControlValueDefault} from './map.js'
+import {resetForms, setAdFormSubmit} from './ad-form.js'
 
-getData((offers) => {
-  createCardElements(offers);
-  renderMarkers(offers, createCardElements(offers))
-})
+export const resetPageAfterSendingData = () => {
+  resetForms();
+  setMainPinMarkerDefPos()
+  setAddressControlValueDefault()
+}
 
+setAdFormSubmit(resetPageAfterSendingData)
 
-// fetch('https://22.javascript.pages.academy/keksobooking/data')
-//   .then((response) => response.json())
-//   .then((offers) => {
-//     createCardElements(offers);
-//     renderMarkers(offers, createCardElements(offers))
-//   })
-//   .catch(() => {
-//     showErrAlert('Не удалось получить данные с сервера')
-//   })
 
