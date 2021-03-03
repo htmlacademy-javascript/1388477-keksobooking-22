@@ -1,6 +1,4 @@
 import {adForm, adFormFieldsets, mapFiltersForm, mapFiltersFormControls, adFormAddressControl} from './ad-form.js'
-import {cardElements} from './cards.js'
-import {similarOffers} from './cards.js'
 
 /* global L:readonly */
 const CenterOfTokyoCoords = {
@@ -28,7 +26,7 @@ const map = L.map('map-canvas')
       lat: CenterOfTokyoCoords.LATITUDE,
       lng: CenterOfTokyoCoords.LONGTITUDE,
     },
-    12,
+    10,
   )
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution:
@@ -51,36 +49,38 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
+export const renderMarkers = (offers, cardElements) => {
+  offers.forEach(({location}, index) =>{
+    const lat = location.lat
+    const lng = location.lng
 
-similarOffers.forEach(({location}, index) =>{
-  const lat = location.x
-  const lng = location.y
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      cardElements[index],
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat,
+        lng,
+      },
+      {
+        icon,
       },
     );
-})
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        cardElements[index],
+        {
+          keepInView: true,
+        },
+      );
+  } )
+}
+
 
 
 mainPinMarker.addTo(map);

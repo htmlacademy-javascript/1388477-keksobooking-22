@@ -77,6 +77,17 @@ adForm.addEventListener('change', (evt) => {
     adForm.timeout.value = evt.target.value
   }
 })
+const setUserformSubmit = (onSuccess) =>{
+  adForm.addEventListener('submit', (evt) =>{
+    evt.preventDefault()
+    const formData = new FormData(evt.target)
+    fetch('https://22.javascript.pages.academy/keksobooking', {
+      method: 'POST',
+      body: formData,
+    })
+  })
+}
+setUserformSubmit()
 validateCapacity()
 onHousingTypeSelectChange()
 setAdFormDisabled()
