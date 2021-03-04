@@ -1,3 +1,7 @@
+import {sendData} from './api.js'
+import {showNotificationPopup, succesPopupTemplate, errorPopupTemplate} from './popups.js'
+import {resetPageAfterSendingData} from './main.js'
+
 export const adForm = document.querySelector('.ad-form')
 export const adFormFieldsets = adForm.querySelectorAll('fieldset')
 export const mapFiltersForm = document.querySelector('.map__filters')
@@ -6,6 +10,8 @@ export const adFormAddressControl = adForm.querySelector('#address')
 const adFormTitleControl = adForm.querySelector('#title')
 const adFormRoomsControl = adForm.querySelector('#room_number')
 const adFormGuestsControl = adForm.querySelector('#capacity')
+const adFormResetBtn = adForm.querySelector('.ad-form__reset')
+export const adFormSubmitBtn = adForm.querySelector('.ad-form__submit')
 const housingType = adForm.querySelector('#type')
 const pricePerNight = adForm.querySelector('#price')
 
@@ -20,11 +26,18 @@ const typeToMinPriceRange = {
   palace: 10000,
 }
 
-const setAdFormDisabled = () => {
+const setPageNotActive = () => {
   adForm.classList.add('ad-form--disabled')
   adFormFieldsets.forEach((fieldset) => fieldset.setAttribute('disabled', ''))
   mapFiltersForm.classList.add('map__filters--disabled')
   mapFiltersFormControls.forEach((childElement) => childElement.setAttribute('disabled', ''))
+}
+
+export const setPageActive = () => {
+  adForm.classList.remove('ad-form--disabled')
+  adFormFieldsets.forEach((fieldset) => fieldset.removeAttribute('disabled'))
+  mapFiltersForm.classList.remove('map__filters--disabled')
+  mapFiltersFormControls.forEach((childElement) => childElement.removeAttribute('disabled'))
 }
 
 const onHousingTypeSelectChange = () =>{
@@ -67,6 +80,12 @@ const onFormChange = (evt) => {
   }
 }
 
+adFormResetBtn.addEventListener('click', (evt) => {
+  evt.preventDefault()
+  resetPageAfterSendingData();
+
+})
+
 housingType.addEventListener('change', onHousingTypeSelectChange)
 
 adForm.addEventListener('change', onFormChange)
@@ -77,6 +96,22 @@ adForm.addEventListener('change', (evt) => {
     adForm.timeout.value = evt.target.value
   }
 })
-validateCapacity()
+export const setAdFormSubmit = (onSuccess) =>{
+  adForm.addEventListener('submit', (evt) =>{
+    evt.preventDefault();
+    sendData(() => {
+      showNotificationPopup(succesPopupTemplate);
+      onSuccess()
+    },
+    () => showNotificationPopup(errorPopupTemplate),
+    new FormData(evt.target))
+  })
+}
+
+export const resetForms = () => {
+  adForm.reset();
+  mapFiltersForm.reset()
+}
+
 onHousingTypeSelectChange()
-setAdFormDisabled()
+setPageNotActive()

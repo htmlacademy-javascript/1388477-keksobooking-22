@@ -22,3 +22,7 @@ export const getRandomLengthUniqArray = (array) => {
   const newArray = array.slice(getRandomInt(0, array.length - 1))
   return newArray
 }
+
+export const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
+};
