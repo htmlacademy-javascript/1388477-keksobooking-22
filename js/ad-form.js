@@ -7,11 +7,11 @@ export const adFormFieldsets = adForm.querySelectorAll('fieldset')
 export const mapFiltersForm = document.querySelector('.map__filters')
 export const mapFiltersFormControls = mapFiltersForm.querySelectorAll(' .map__filters > select, fieldset')
 export const adFormAddressControl = adForm.querySelector('#address')
+export const adFormSubmitBtn = adForm.querySelector('.ad-form__submit')
 const adFormTitleControl = adForm.querySelector('#title')
 const adFormRoomsControl = adForm.querySelector('#room_number')
 const adFormGuestsControl = adForm.querySelector('#capacity')
 const adFormResetBtn = adForm.querySelector('.ad-form__reset')
-export const adFormSubmitBtn = adForm.querySelector('.ad-form__submit')
 const housingType = adForm.querySelector('#type')
 const pricePerNight = adForm.querySelector('#price')
 
@@ -36,6 +36,10 @@ const setPageNotActive = () => {
 export const setPageActive = () => {
   adForm.classList.remove('ad-form--disabled')
   adFormFieldsets.forEach((fieldset) => fieldset.removeAttribute('disabled'))
+
+}
+
+export const setFiltersFormActive = () => {
   mapFiltersForm.classList.remove('map__filters--disabled')
   mapFiltersFormControls.forEach((childElement) => childElement.removeAttribute('disabled'))
 }

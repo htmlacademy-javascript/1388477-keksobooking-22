@@ -1,4 +1,4 @@
-import {adFormAddressControl, setPageActive} from './ad-form.js'
+import {adFormAddressControl, setPageActive, setFiltersFormActive} from './ad-form.js'
 import {getData} from './api.js'
 import {createCardElements} from './cards.js'
 
@@ -17,8 +17,8 @@ const onMainPinMarkerMoveend = () => {
 const onMapLoad = () => {
   setPageActive()
   getData((offers) => {
-    createCardElements(offers);
-    renderMarkers(offers, createCardElements(offers))
+    renderMarkers(offers, createCardElements(offers));
+    setFiltersFormActive()
   })
 }
 

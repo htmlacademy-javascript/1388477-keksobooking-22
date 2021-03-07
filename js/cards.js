@@ -1,4 +1,9 @@
-import {createOffers, housingTypeTranslation} from  './data.js'
+const housingTypeTranslation = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+}
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup')
 
@@ -37,4 +42,3 @@ export const createCardElements = (offers) => {
   })
   return cards
 }
-export const cardElements = createOffers()

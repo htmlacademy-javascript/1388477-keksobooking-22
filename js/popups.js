@@ -25,6 +25,7 @@ export const closeNotificationPopup = () => {
   if (popupElement) {
     adFormSubmitBtn.disabled = false
     popupElement.remove();
+    popupElement = null;
     document.removeEventListener('keydown', onPopupEscKeydown);
   }
 }
