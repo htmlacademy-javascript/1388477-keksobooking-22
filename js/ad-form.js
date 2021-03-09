@@ -1,11 +1,10 @@
 import {sendData} from './api.js'
 import {showNotificationPopup, succesPopupTemplate, errorPopupTemplate} from './popups.js'
+import {mapFiltersForm, mapFiltersFormControls} from './filters-form.js'
 import {resetPageAfterSendingData} from './main.js'
 
 export const adForm = document.querySelector('.ad-form')
 export const adFormFieldsets = adForm.querySelectorAll('fieldset')
-export const mapFiltersForm = document.querySelector('.map__filters')
-export const mapFiltersFormControls = mapFiltersForm.querySelectorAll(' .map__filters > select, fieldset')
 export const adFormAddressControl = adForm.querySelector('#address')
 export const adFormSubmitBtn = adForm.querySelector('.ad-form__submit')
 const adFormTitleControl = adForm.querySelector('#title')
@@ -14,6 +13,7 @@ const adFormGuestsControl = adForm.querySelector('#capacity')
 const adFormResetBtn = adForm.querySelector('.ad-form__reset')
 const housingType = adForm.querySelector('#type')
 const pricePerNight = adForm.querySelector('#price')
+
 
 const TitleValueLength = {
   MIN: 30,
