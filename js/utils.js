@@ -13,12 +13,6 @@ export const getRandomFloat = (min, max, decimals = 2) => {
 
 export const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)]
 
-export const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[array[i], array[j]] = [array[j], array[i]]
-  }
-}
 
 export const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';

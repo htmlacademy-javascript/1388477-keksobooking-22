@@ -1,6 +1,4 @@
-import {compareValues} from './filters-form.js'
-
-export const ALLOWED_OFFERS_NUMBER = 10;
+import {getFilteredOffers} from './filters.js'
 
 const housingTypeTranslation = {
   'flat': 'Квартира',
@@ -28,7 +26,7 @@ const setPhotos = (element, source) => {
 }
 
 export const createCardElements = (offers) => {
-  const cards = offers.filter(compareValues).slice(0, ALLOWED_OFFERS_NUMBER).map(({offer,author}) => {
+  const cards = getFilteredOffers(offers).map(({offer,author}) => {
     const cardElement = cardTemplate.cloneNode(true)
     cardElement.querySelector('.popup__title').textContent = offer.title
     cardElement.querySelector('.popup__text--address').textContent = offer.address

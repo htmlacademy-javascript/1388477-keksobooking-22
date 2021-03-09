@@ -1,6 +1,6 @@
 import {sendData} from './api.js'
 import {showNotificationPopup, succesPopupTemplate, errorPopupTemplate} from './popups.js'
-import {mapFiltersForm, mapFiltersFormControls} from './filters-form.js'
+import {mapFiltersForm, mapFiltersFormControls} from './filters.js'
 import {resetPageAfterSendingData} from './main.js'
 
 export const adForm = document.querySelector('.ad-form')

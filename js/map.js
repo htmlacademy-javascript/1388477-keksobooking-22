@@ -1,7 +1,7 @@
 import {adFormAddressControl, setPageActive, setFiltersFormActive} from './ad-form.js'
 import {getData} from './api.js'
-import {createCardElements, ALLOWED_OFFERS_NUMBER} from './cards.js'
-import {compareValues,setFiltersFormChange} from './filters-form.js'
+import {createCardElements} from './cards.js'
+import {getFilteredOffers,setFiltersFormChange} from './filters.js'
 
 /* global L:readonly */
 const CenterOfTokyoCoords = {
@@ -18,7 +18,6 @@ const onMainPinMarkerMoveend = () => {
 const onMapLoad = () => {
   setPageActive()
   getData((offers) => {
-    //console.log(offers)
     renderMarkers(offers, createCardElements(offers));
     setFiltersFormActive()
     setFiltersFormChange(() => renderMarkers(offers, createCardElements(offers)))
@@ -60,7 +59,7 @@ const markers = L.layerGroup().addTo(map)
 
 export const renderMarkers = (offers, cardElements) => {
   markers.clearLayers()
-  offers.filter(compareValues).slice(0, ALLOWED_OFFERS_NUMBER).forEach(({location}, index) =>{
+  getFilteredOffers(offers).forEach(({location}, index) =>{
     const lat = location.lat
     const lng = location.lng
 
