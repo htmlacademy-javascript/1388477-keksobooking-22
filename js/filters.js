@@ -38,14 +38,14 @@ const checkFeatures = ({offer}) => {
     if (offer.features.includes(feature.value)) {
       counter++;
     }
-  })
+  });
 
   return counter === checkedFeatures.length;
-}
+};
 
 const checkGuests = ({offer}, control) => {
   return parseInt(control.value) === offer.guests || control.value === DEFAULT_CONTROL_VALUE;
-}
+};
 
 export const compareFiltersValues = (offer) => {
   return checkType(offer, housingType) &&
@@ -63,6 +63,6 @@ export const setFiltersFormChange = (cb) => {
 
 export const getFilteredOffers = (offers) => {
   const filteredOffers = offers.filter(compareFiltersValues).slice(0, ALLOWED_OFFERS_NUMBER);
-  return filteredOffers
-}
+  return filteredOffers;
+};
 

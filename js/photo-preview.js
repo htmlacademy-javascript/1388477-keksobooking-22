@@ -25,11 +25,11 @@ const setImagePreview = (input, img) => {
     }
 
     if (img.classList.contains('visually-hidden')) {
-      img.classList.remove('visually-hidden')
+      img.classList.remove('visually-hidden');
     }
   });
 }
 
-setImagePreview(avatarFileChooser, avatarPreview)
-setImagePreview(HousingPhotoFileChooser, HousingPhotoPreview)
+setImagePreview(avatarFileChooser, avatarPreview);
+setImagePreview(HousingPhotoFileChooser, HousingPhotoPreview);
 

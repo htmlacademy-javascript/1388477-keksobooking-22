@@ -4,8 +4,8 @@ import {resetForms, setAdFormSubmit} from './ad-form.js'
 
 export const resetPageAfterSendingData = () => {
   resetForms();
-  setMainPinMarkerDefPos()
-  setAddressControlValueDefault()
-}
+  setMainPinMarkerDefPos();
+  setAddressControlValueDefault();
+};
 
-setAdFormSubmit(resetPageAfterSendingData)
+setAdFormSubmit(resetPageAfterSendingData);

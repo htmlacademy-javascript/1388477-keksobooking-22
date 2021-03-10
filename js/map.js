@@ -2,27 +2,31 @@ import {adFormAddressControl, setPageActive, setFiltersFormActive} from './ad-fo
 import {getData} from './api.js'
 import {createCardElements} from './cards.js'
 import {getFilteredOffers,setFiltersFormChange} from './filters.js'
+import {debounceEvent} from './utils.js'
 
 /* global L:readonly */
+
+const RERENDER_DELAY = 500;
+
 const CenterOfTokyoCoords = {
   LATITUDE: 35.68261672982978,
   LONGTITUDE: 139.7528278025191,
-}
+};
 
-export const getAddressValue = () => `${(mainPinMarker.getLatLng().lat).toFixed(5)}, ${(mainPinMarker.getLatLng().lng).toFixed(5)}`
+export const getAddressValue = () => `${(mainPinMarker.getLatLng().lat).toFixed(5)}, ${(mainPinMarker.getLatLng().lng).toFixed(5)}`;
 
 const onMainPinMarkerMoveend = () => {
-  adFormAddressControl.value = getAddressValue()
-}
+  adFormAddressControl.value = getAddressValue();
+};
 
 const onMapLoad = () => {
-  setPageActive()
+  setPageActive();
   getData((offers) => {
     renderMarkers(offers, createCardElements(offers));
-    setFiltersFormActive()
-    setFiltersFormChange(() => renderMarkers(offers, createCardElements(offers)))
-  })
-}
+    setFiltersFormActive();
+    setFiltersFormChange(debounceEvent(() => renderMarkers(offers, createCardElements(offers)), RERENDER_DELAY));
+  });
+};
 
 const map = L.map('map-canvas')
   .on('load', onMapLoad)
@@ -36,13 +40,13 @@ const map = L.map('map-canvas')
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map)
+}).addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
-})
+});
 
 export const mainPinMarker = L.marker(
   {
@@ -55,13 +59,13 @@ export const mainPinMarker = L.marker(
   },
 );
 
-const markers = L.layerGroup().addTo(map)
+const markers = L.layerGroup().addTo(map);
 
 export const renderMarkers = (offers, cardElements) => {
-  markers.clearLayers()
+  markers.clearLayers();
   getFilteredOffers(offers).forEach(({location}, index) =>{
-    const lat = location.lat
-    const lng = location.lng
+    const lat = location.lat;
+    const lng = location.lng;
 
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
@@ -86,11 +90,11 @@ export const renderMarkers = (offers, cardElements) => {
           keepInView: true,
         },
       );
-  } )
-}
+  } );
+};
 
 export const setMainPinMarkerDefPos = () => {
-  mainPinMarker.setLatLng(L.latLng(CenterOfTokyoCoords.LATITUDE, CenterOfTokyoCoords.LONGTITUDE))
+  mainPinMarker.setLatLng(L.latLng(CenterOfTokyoCoords.LATITUDE, CenterOfTokyoCoords.LONGTITUDE));
 }
 
 export const setAddressControlValueDefault = () => {
@@ -99,7 +103,7 @@ export const setAddressControlValueDefault = () => {
 
 mainPinMarker.addTo(map);
 
-setAddressControlValueDefault()
+setAddressControlValueDefault();
 
-mainPinMarker.on('moveend', onMainPinMarkerMoveend)
+mainPinMarker.on('moveend', onMainPinMarkerMoveend);
 
