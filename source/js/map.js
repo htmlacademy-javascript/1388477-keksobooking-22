@@ -5,8 +5,6 @@ import {getFilteredOffers,setFiltersFormChange} from './filters.js'
 import {debounceEvent} from './utils.js'
 import L from 'leaflet'
 
-
-
 const RERENDER_DELAY = 500;
 
 const CenterOfTokyoCoords = {
