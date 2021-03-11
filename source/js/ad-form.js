@@ -2,6 +2,7 @@ import {sendData} from './api.js'
 import {showNotificationPopup, succesPopupTemplate, errorPopupTemplate} from './popups.js'
 import {mapFiltersForm, mapFiltersFormControls} from './filters.js'
 import {resetPageAfterSendingData} from './main.js'
+import {avatarFileChooser, avatarPreview,housingPhotoFileChooser, housingPhotoPreview, resetPreview} from './photo-preview'
 
 export const adForm = document.querySelector('.ad-form');
 export const adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -116,6 +117,9 @@ export const setAdFormSubmit = (onSuccess) =>{
 export const resetForms = () => {
   adForm.reset();
   mapFiltersForm.reset();
+  resetPreview(housingPhotoFileChooser,housingPhotoPreview);
+  resetPreview(avatarFileChooser, avatarPreview);
+
 }
 
 onHousingTypeSelectChange();

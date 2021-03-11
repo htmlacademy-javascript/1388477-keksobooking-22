@@ -1,9 +1,8 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
-const avatarFileChooser = document.querySelector('#avatar');
-const avatarPreview = document.querySelector('.ad-form-header__preview img');
-const HousingPhotoFileChooser = document.querySelector('#images');
-const HousingPhotoPreview = document.querySelector('.ad-form__photo img');
+export const avatarFileChooser = document.querySelector('#avatar');
+export const avatarPreview = document.querySelector('.ad-form-header__preview img');
+export const housingPhotoFileChooser = document.querySelector('#images');
+export const housingPhotoPreview = document.querySelector('.ad-form__photo img');
 
 const setImagePreview = (input, img) => {
   input.addEventListener('change', () => {
@@ -30,6 +29,12 @@ const setImagePreview = (input, img) => {
   });
 }
 
+export const resetPreview = (input,image) => {
+  input.value = '';
+  image.src = 'img/muffin-grey.svg'
+
+}
+
 setImagePreview(avatarFileChooser, avatarPreview);
-setImagePreview(HousingPhotoFileChooser, HousingPhotoPreview);
+setImagePreview(housingPhotoFileChooser, housingPhotoPreview);
 

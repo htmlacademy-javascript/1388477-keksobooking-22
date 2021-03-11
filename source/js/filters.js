@@ -1,5 +1,7 @@
 const ALLOWED_OFFERS_NUMBER = 10;
 const DEFAULT_CONTROL_VALUE = 'any';
+const LOW_PRICE = 10000;
+const HIGH_PRICE = 50000;
 
 export const mapFiltersForm = document.querySelector('.map__filters');
 export const mapFiltersFormControls = mapFiltersForm.querySelectorAll('.map__filters > select, fieldset');
@@ -9,19 +11,16 @@ const housingRooms = mapFiltersForm.querySelector('#housing-rooms');
 const housingGuests = mapFiltersForm.querySelector('#housing-guests');
 
 
-const checkType = ({offer}, control) => {
-  return control.value === offer.type || control.value === DEFAULT_CONTROL_VALUE;
+const checkType = ({offer}) => {
+  return housingType.value === offer.type || housingType.value === DEFAULT_CONTROL_VALUE;
 };
 
-const checkRooms = ({offer}, control) => {
-  return parseInt(control.value) === offer.rooms || control.value === DEFAULT_CONTROL_VALUE;
+const checkRooms = ({offer}) => {
+  return parseInt(housingRooms.value) === offer.rooms || housingRooms.value === DEFAULT_CONTROL_VALUE;
 };
 
-const checkPrice = ({offer}, control) => {
-  const LOW_PRICE = 10000;
-  const HIGH_PRICE = 50000;
-
-  switch (control.value) {
+const checkPrice = ({offer}) => {
+  switch (housingPrice.value) {
     case DEFAULT_CONTROL_VALUE: return true;
     case 'middle': return offer.price >= LOW_PRICE && offer.price < HIGH_PRICE;
     case 'low': return offer.price < LOW_PRICE;
@@ -31,28 +30,30 @@ const checkPrice = ({offer}, control) => {
 };
 
 const checkFeatures = ({offer}) => {
-  const checkedFeatures = mapFiltersForm.querySelectorAll('.map__checkbox:checked');
-  let counter = 0;
+  const checkedFeatures = Array.from(mapFiltersForm.querySelectorAll('.map__checkbox:checked'));
 
-  checkedFeatures.forEach((feature) => {
-    if (offer.features.includes(feature.value)) {
-      counter++;
-    }
+  return checkedFeatures.every((feature) => {
+    return offer.features.includes(feature.value);
   });
-
-  return counter === checkedFeatures.length;
 };
 
-const checkGuests = ({offer}, control) => {
-  return parseInt(control.value) === offer.guests || control.value === DEFAULT_CONTROL_VALUE;
+
+const checkGuests = ({offer}) => {
+  return parseInt(housingGuests.value) === offer.guests || housingGuests.value === DEFAULT_CONTROL_VALUE;
 };
 
-export const compareFiltersValues = (offer) => {
-  return checkType(offer, housingType) &&
-  checkRooms(offer, housingRooms) &&
-  checkPrice(offer, housingPrice) &&
-  checkGuests(offer,housingGuests) &&
-  checkFeatures(offer);
+const checkEveryFilter = (offer) => {
+  const checks = [
+    checkType,
+    checkPrice,
+    checkRooms,
+    checkGuests,
+    checkFeatures,
+  ];
+
+  return checks.every((check) => {
+    return check(offer);
+  });
 };
 
 export const setFiltersFormChange = (cb) => {
@@ -62,7 +63,6 @@ export const setFiltersFormChange = (cb) => {
 };
 
 export const getFilteredOffers = (offers) => {
-  const filteredOffers = offers.filter(compareFiltersValues).slice(0, ALLOWED_OFFERS_NUMBER);
+  const filteredOffers = offers.filter(checkEveryFilter).slice(0, ALLOWED_OFFERS_NUMBER);
   return filteredOffers;
 };
-
