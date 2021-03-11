@@ -1,5 +1,5 @@
-import { adFormSubmitBtn } from './ad-form.js';
-import {isEscEvent} from './utils.js';
+import { adFormSubmitBtn } from './ad-form.js'
+import {isEscEvent} from './utils.js'
 
 const ALERT_SHOW_TIME = 4000;
 
@@ -16,19 +16,19 @@ export const showNotificationPopup = (popupTemplate) => {
   popupElement.style.zIndex = '1000';
   documentMainElement.appendChild(popupElement);
   document.addEventListener('keydown', onPopupEscKeydown);
-  popupElement.addEventListener('click', onPopupClick)
-  adFormSubmitBtn.disabled = true
-}
+  popupElement.addEventListener('click', onPopupClick);
+  adFormSubmitBtn.disabled = true;
+};
 
 
 export const closeNotificationPopup = () => {
   if (popupElement) {
-    adFormSubmitBtn.disabled = false
+    adFormSubmitBtn.disabled = false;
     popupElement.remove();
     popupElement = null;
     document.removeEventListener('keydown', onPopupEscKeydown);
   }
-}
+};
 
 
 export const showErrAlert = () => {
@@ -49,16 +49,16 @@ export const showErrAlert = () => {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
-}
+};
 
 const onPopupEscKeydown = (evt) => {
   if(isEscEvent(evt)) {
     evt.preventDefault();
     closeNotificationPopup();
   }
-}
+};
 
 const onPopupClick = () => {
   closeNotificationPopup();
-}
+};
 
