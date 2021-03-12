@@ -4,6 +4,11 @@ import {mapFiltersForm, mapFiltersFormControls} from './filters.js'
 import {resetPageAfterSendingData} from './main.js'
 import {avatarFileChooser, avatarPreview,housingPhotoFileChooser, housingPhotoPreview, resetPreview} from './photo-preview'
 
+const TitleValueLength = {
+  MIN: 30,
+  MAX: 100,
+};
+
 export const adForm = document.querySelector('.ad-form');
 export const adFormFieldsets = adForm.querySelectorAll('fieldset');
 export const adFormAddressControl = adForm.querySelector('#address');
@@ -14,12 +19,6 @@ const adFormGuestsControl = adForm.querySelector('#capacity');
 const adFormResetBtn = adForm.querySelector('.ad-form__reset');
 const housingType = adForm.querySelector('#type');
 const pricePerNight = adForm.querySelector('#price');
-
-
-const TitleValueLength = {
-  MIN: 30,
-  MAX: 100,
-};
 
 const typeToMinPriceRange = {
   flat: 1000,
