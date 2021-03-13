@@ -9,6 +9,20 @@ const TitleValueLength = {
   MAX: 100,
 };
 
+const roomsToGuestsRatio = {
+  '1': '1',
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100':'0',
+};
+
+const typeToMinPriceRange = {
+  flat: 1000,
+  bungalow: 0,
+  house: 5000,
+  palace: 10000,
+};
+
 export const adForm = document.querySelector('.ad-form');
 export const adFormFieldsets = adForm.querySelectorAll('fieldset');
 export const adFormAddressControl = adForm.querySelector('#address');
@@ -19,13 +33,6 @@ const adFormGuestsControl = adForm.querySelector('#capacity');
 const adFormResetBtn = adForm.querySelector('.ad-form__reset');
 const housingType = adForm.querySelector('#type');
 const pricePerNight = adForm.querySelector('#price');
-
-const typeToMinPriceRange = {
-  flat: 1000,
-  bungalow: 0,
-  house: 5000,
-  palace: 10000,
-};
 
 const setPageNotActive = () => {
   adForm.classList.add('ad-form--disabled');
@@ -62,13 +69,6 @@ adFormTitleControl.addEventListener('input', () => {
   adFormTitleControl.reportValidity()
 });
 
-const roomsToGuestsRatio = {
-  '1': '1',
-  '2': ['2', '1'],
-  '3': ['3', '2', '1'],
-  '100':'0',
-};
-
 const validateCapacity = () => {
   const capacity = adFormGuestsControl.value;
   const rooms = adFormRoomsControl.value;
@@ -87,7 +87,6 @@ const onFormChange = (evt) => {
 adFormResetBtn.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetPageAfterSendingData();
-
 });
 
 housingType.addEventListener('change', onHousingTypeSelectChange);
@@ -104,6 +103,7 @@ adForm.addEventListener('change', (evt) => {
 export const setAdFormSubmit = (onSuccess) =>{
   adForm.addEventListener('submit', (evt) =>{
     evt.preventDefault();
+    adFormSubmitBtn.disabled = true;
     sendData(() => {
       showNotificationPopup(succesPopupTemplate);
       onSuccess();
